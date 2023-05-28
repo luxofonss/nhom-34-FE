@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query/index.js'
-import { todoApi } from '@src/containers/app/feature/Customer/pages/Todo/todo.services.js'
 import { authApi } from '@src/containers/authentication/feature/Auth/authService.js'
 import { rtkQueryToastify } from '@src/middlewares/toastify.js'
 import { createLogger } from 'redux-logger'
@@ -38,7 +37,7 @@ export function configureAppStore(preloadedState) {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
         },
         immutableCheck: { warnAfter: 128 }
-      }).concat(loggerMiddleware, todoApi.middleware, authApi.middleware, rtkQueryToastify),
+      }).concat(loggerMiddleware, authApi.middleware, rtkQueryToastify),
     preloadedState,
     enhancers: []
   })

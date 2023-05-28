@@ -1,9 +1,4 @@
-import { Configs } from 'app-configs'
-
-export function getImageWithId(id) {
-  return Configs.BASE_API + '/media/' + String(id)
-}
-
+/* eslint-disable no-undef */
 export function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
