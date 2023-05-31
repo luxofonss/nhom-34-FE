@@ -46,9 +46,9 @@ module.exports = (env, argv) => {
           use: ['babel-loader'] // Giúp dịch code TS, React sang JS,
         },
         {
-          test: /\.(s[ac]ss|css)$/, // duyệt các file sass || scss || css
+          test: /\.(sass|scss|css)$/, // duyệt các file sass || scss || css
           use: [
-            MiniCssExtractPlugin.loader,
+            { loader: MiniCssExtractPlugin.loader },
             {
               loader: 'css-loader', // dùng import 'filename.css' trong file tsx, ts
               options: { sourceMap: !isProduction } // Hiển thị sourcemap ở môi trường dev cho dễ debug
@@ -56,15 +56,15 @@ module.exports = (env, argv) => {
             {
               loader: 'sass-loader', // biên dịch sass sang css
               options: { sourceMap: !isProduction }
-            },
-            {
-              loader: 'postcss-loader',
-              options: { sourceMap: !isProduction }
-
-              // options: {
-              //   plugins: () => [require('postcss-flexbugs-fixes')()]
-              // }
             }
+            // {
+            //   loader: 'postcss-loader',
+            //   options: { sourceMap: !isProduction }
+
+            //   // options: {
+            //   //   plugins: () => [require('postcss-flexbugs-fixes')()]
+            //   // }
+            // }
           ]
         },
         {

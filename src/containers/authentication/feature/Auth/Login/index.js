@@ -25,6 +25,7 @@ function Login() {
   const onSubmit = async (loginData) => {
     const response = await loginRequest(loginData)
     console.log('response: ', response)
+
     if (!response.error) {
       dispatch(setUser(response.data.metadata.user))
       dispatch(login())
