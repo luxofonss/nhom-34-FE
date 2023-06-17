@@ -56,15 +56,15 @@ module.exports = (env, argv) => {
             {
               loader: 'sass-loader', // biên dịch sass sang css
               options: { sourceMap: !isProduction }
-            }
-            // {
-            //   loader: 'postcss-loader',
-            //   options: { sourceMap: !isProduction }
+            },
+            {
+              loader: 'postcss-loader',
+              options: { sourceMap: !isProduction }
 
-            //   // options: {
-            //   //   plugins: () => [require('postcss-flexbugs-fixes')()]
-            //   // }
-            // }
+              // options: {
+              //   plugins: () => [require('postcss-flexbugs-fixes')()]
+              // }
+            }
           ]
         },
         {
