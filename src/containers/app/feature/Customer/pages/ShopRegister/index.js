@@ -7,11 +7,13 @@ import AppTextArea from '@src/components/Form/AppTextArea'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import customerApi from '../../customer.service'
+import { useNavigate } from 'react-router'
 
 function ShopRegister() {
+  const navigate = useNavigate()
   const onSubmit = async (data) => {
     const response = await register({
-      name: data.name,
+      shopName: data.name,
       address: data.address,
       phoneNumber: data.phoneNumber,
       description: data.description
@@ -20,6 +22,7 @@ function ShopRegister() {
 
     if (!response.error) {
       toast.success('Chúc mừng bạn đã đăng ký thành công!')
+      navigate('/shop/product/all')
     } else {
       toast.error(response.error?.data?.message)
     }
@@ -61,7 +64,7 @@ function ShopRegister() {
             required='Bạn phải đồng ý với điều khoản dịch vụ'
           />
           <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
-            {!isLoading ? ' Đăng ký' : <BeatLoader size={12} color='#36d7b7' />}
+            {!isLoading ? ' Đăng ký' : <BeatLoader size={12} color='#ff4d00' />}
           </AppButton>
         </AppForm>
       </div>
