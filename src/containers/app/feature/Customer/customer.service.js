@@ -28,6 +28,11 @@ const customerApi = createApi({
       // },
       // invalidates: ['getCart'] // Invalidate the cache for this query whenever it's run again
     }),
+    getNotification: build.query({
+      query: () => ({
+        url: '/notification'
+      })
+    }),
     addToCart: build.mutation({
       query: (body) => ({
         url: '/cart',

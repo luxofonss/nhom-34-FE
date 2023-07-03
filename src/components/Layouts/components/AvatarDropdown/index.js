@@ -122,7 +122,11 @@ function AvatarDropdown() {
         {
           name: 'Switch Themes',
           type: 'element',
-          element: <div></div>
+          element: (
+            <div>
+              <input type='checkbox' id='theme' />
+            </div>
+          )
         }
       ]
     }

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import logo from '../../../../assets/images/logo.png'
 import AvatarDropdown from '../AvatarDropdown'
+import Notification from '../Notification'
 import SearchBar from '../SearchBar'
 import { USER_ROLE } from '@src/configs'
 
@@ -79,6 +80,7 @@ function Header() {
         </div>
         {auth.isLoggedIn ? (
           <div className='flex gap-1'>
+            <Notification />
             <Cart />
             <AvatarDropdown />
           </div>
