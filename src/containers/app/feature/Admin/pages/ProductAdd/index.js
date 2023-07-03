@@ -16,13 +16,14 @@ import { useAddProductMutation } from '../../adminService'
 import SellInformation from '../../components/SellInformation'
 import AppSelect from '@src/components/Form/AppSelect'
 import ChooseCategory from '../../components/ChooseCategory'
+import { toast } from 'react-toastify'
 
 function ProductAdd() {
   const [imageList, setImageList] = useState([])
   const [imageListObject, setImageListObject] = useState([])
   const [limitUpload, setLimitUpload] = useState(false)
   const [productAttributeList, setProductAttributeList] = useState()
-  const [addProduct] = useAddProductMutation()
+  const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation()
   const [categoryId, setCategoryId] = useState()
 
   function handleChooseCategory(id) {
@@ -90,6 +91,11 @@ function ProductAdd() {
 
     const response = await addProduct(flatData)
     console.log('response:: ', response)
+    if (response.error) {
+      toast.error(response.error?.data?.message)
+    } else {
+      toast.success('Thêm sản phẩm thành công!')
+    }
   }
 
   console.log('productAttributeList:: ', productAttributeList)
@@ -236,7 +242,9 @@ function ProductAdd() {
           </div>
         </div>
         <div className='mt-6 w-44 ml-auto'>
-          <AppButton type='submit'>Tạo sản phẩm</AppButton>
+          <AppButton isLoading={isAddingProduct} type='submit'>
+            Tạo sản phẩm
+          </AppButton>
         </div>
       </AppForm>
     </div>
