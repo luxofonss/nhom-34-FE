@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Cookies from 'universal-cookie'
 import { v4 as uuidv4 } from 'uuid'
+import '../../../../App.css'
+
 const cookies = new Cookies()
 
 function AvatarDropdown() {
@@ -101,6 +103,12 @@ function AvatarDropdown() {
           path: '/shop/order/all',
           type: '',
           icon: <IconDashboard />
+        },
+        {
+          name: 'Thông tin shop',
+          path: '/shop/profile',
+          type: '',
+          icon: <IconDashboard />
         }
       ]
     },
@@ -133,7 +141,7 @@ function AvatarDropdown() {
   ]
 
   useEffect(() => {
-    if (userInfo.roles.includes(USER_ROLE.SHOP)) {
+    if (userInfo?.roles?.includes(USER_ROLE.SHOP)) {
       setActionList(shopActions)
     } else {
       setActionList(userActions)
@@ -153,7 +161,7 @@ function AvatarDropdown() {
               <div className='w-8 h-8 rounded-full bg-green-500 flex justify-center items-center'>
                 {userInfo?.avatar ? (
                   <img src={userInfo.avatar} alt='avatar' className='w-full h-full rounded-full' />
-                ) : userInfo ? (
+                ) : userInfo.name ? (
                   userInfo?.name[0]
                 ) : (
                   ''
@@ -169,7 +177,7 @@ function AvatarDropdown() {
               leaveFrom='opacity-100 translate-y-0'
               leaveTo='opacity-0 translate-y-1'
             >
-              <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+              <Popover.Panel className='absolute shadow-xl bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
                 {actionsList?.map((groupList, index) => {
                   let groupAction = groupList.children?.map((action) => {
                     switch (action.type) {

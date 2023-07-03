@@ -10,6 +10,7 @@ import AvatarDropdown from '../AvatarDropdown'
 import Notification from '../Notification'
 import SearchBar from '../SearchBar'
 import { USER_ROLE } from '@src/configs'
+import MessengerDropdown from '../MessengerDropdown'
 
 function Header() {
   const userInfo = useSelector((state) => state.auth.user)
@@ -25,7 +26,7 @@ function Header() {
             </Link>
             {userInfo?.roles?.includes(USER_ROLE.SHOP) ? null : (
               <Link className='hover:opacity-90 hover:cursor-pointer' to='/shop/register'>
-                Trở thành người bán Sope
+                Trở thành người bán SOPE
               </Link>
             )}
             <div className='hover:opacity-90 hover:cursor-pointer'>Tải ứng dụng</div>
@@ -81,6 +82,7 @@ function Header() {
         {auth.isLoggedIn ? (
           <div className='flex gap-1'>
             <Notification />
+            <MessengerDropdown />
             <Cart />
             <AvatarDropdown />
           </div>

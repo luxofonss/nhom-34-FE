@@ -1,0 +1,6 @@
+#theme {
+  display: none;
+}
+#theme:checked ~ * {
+  filter: invert(1);
+}
