@@ -11,7 +11,7 @@ function ProductAdd() {
   }
   return (
     <div className={cx('wrapper')}>
-      <div>Them san pham</div>
+      <div className='text-black'>Them san pham</div>
       <div>
         <Form onFinish={onFinish} name='control-ref'>
           <Form.Item
