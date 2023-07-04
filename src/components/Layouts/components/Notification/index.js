@@ -1,16 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import moment from 'moment'
+import { Link, useLocation } from 'react-router-dom'
 import { BellIcon } from '@heroicons/react/20/solid'
-import customerApi from '../../../../containers/app/feature/Customer/customer.service'
+import appApi from '../../../../redux/service'
+import moment from 'moment'
+import { DEFAULT_AVT } from '@src/configs'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotification } from '@src/containers/app/feature/Customer/customer.slice'
 
 function Notification() {
-  const [getNotification, { data: notifications }] = customerApi.endpoints.getNotification.useLazyQuery({ cache: true })
+  const notifications = useSelector((state) => state.customer.notifications)
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const [getNotification] = appApi.endpoints.getNotification.useLazyQuery()
+
+  const fetchNotification = async () => {
+    const allNotifications = await getNotification({}, false).unwrap()
+    dispatch(setNotification(allNotifications?.metadata))
+  }
+
   useEffect(() => {
-    getNotification(null, false)
-  }, [])
+    fetchNotification()
+  }, [location])
   return (
     <div className='flex'>
       <Popover className='relative z-[1000]'>
@@ -34,29 +46,34 @@ function Notification() {
               leaveFrom='opacity-100 translate-y-0'
               leaveTo='opacity-0 translate-y-1'
             >
-              <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
-                {notifications?.metadata?.map((child) => {
+              <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-96 max-h-96 overflow-y-scroll border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+                {notifications?.map((child) => {
                   switch (child.type) {
                     case 'ORDER_SHOP': {
                       return (
                         <Link
-                          to={`me/orders`}
-                          className={`bg-green-200 h-14 w-full flex items-center py-1 mt-1 rounded-md px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
-                          key={child._id}
-                          target='_blank'
+                          key={child._id + child.message}
+                          className='flex gap-4 p-2 bg-neutral-200 mb-2 rounded-sm'
+                          to={`/shop/order/${child.orderId}`}
                         >
-                          <div className='flex w-full gap-4'>
-                            <div className='flex-1'>
-                              <div className='flex items-center justify-between'>
-                                <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
-                                  {child?.senderId?.name}
-                                </div>
-                                <div className='text-xs text-neutral-500'>
-                                  {moment(child?.createdAt).format('HH:MM')}
-                                </div>
+                          <div className='h-12 w-12'>
+                            <img
+                              className='h-12 w-12 rounded-full'
+                              src={child?.senderId?.avatar || DEFAULT_AVT}
+                              alt='avt'
+                            />
+                          </div>
+                          <div className='flex-1'>
+                            <div className='flex justify-between'>
+                              <div className='flex gap-2'>
+                                <div className='font-medium'>{child.senderId.name}</div>
                               </div>
-                              <div className='text-sm text-neutral-400 line-clamp-1'>{child?.message}</div>
+                              <div className='text-neutral-400 text-xs'>
+                                {moment(child.createdAt).format('hh:mm A')}
+                              </div>
+                              {/* <div>{child._isViewed ? 'viewed' : 'not viewed'}</div> */}
                             </div>
+                            <div className='text-neutral-500 text-sm'>{child.message}</div>
                           </div>
                         </Link>
                       )
@@ -64,23 +81,28 @@ function Notification() {
                     case 'ORDER_CUSTOMER': {
                       return (
                         <Link
-                          to={`/shop/order/${child._id}`}
-                          className={`bg-orange-200 h-14 w-full flex items-center py-1 mt-1 rounded-md px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
-                          key={child._id}
-                          target='_blank'
+                          key={child._id + child.message}
+                          className='flex gap-4 p-2 bg-neutral-200 mb-2 rounded-sm'
+                          to={`/me/orders/${child.orderId}`}
                         >
-                          <div className='flex w-full gap-4'>
-                            <div className='flex-1'>
-                              <div className='flex items-center justify-between'>
-                                <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
-                                  {child?.senderId?.name}
-                                </div>
-                                <div className='text-xs text-neutral-500'>
-                                  {moment(child?.createdAt).format('HH:MM')}
-                                </div>
+                          <div className='h-12 w-12'>
+                            <img
+                              className='h-12 w-12 rounded-full'
+                              src={child?.senderId?.avatar || DEFAULT_AVT}
+                              alt='avt'
+                            />
+                          </div>
+                          <div className='flex-1'>
+                            <div className='flex justify-between'>
+                              <div className='flex gap-2'>
+                                <div className='font-medium'>{child.senderId.name}</div>
                               </div>
-                              <div className='text-sm text-neutral-400 line-clamp-1'>{child?.message}</div>
+                              <div className='text-neutral-400 text-xs'>
+                                {moment(child.createdAt).format('hh:mm A')}
+                              </div>
+                              {/* <div>{child.isViewed ? 'viewed' : 'not viewed'}</div> */}
                             </div>
+                            <div className='text-neutral-500 text-sm'>{child.message}</div>
                           </div>
                         </Link>
                       )

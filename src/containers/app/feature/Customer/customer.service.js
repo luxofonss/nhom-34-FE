@@ -28,11 +28,6 @@ const customerApi = createApi({
       // },
       // invalidates: ['getCart'] // Invalidate the cache for this query whenever it's run again
     }),
-    getNotification: build.query({
-      query: () => ({
-        url: '/notification'
-      })
-    }),
     addToCart: build.mutation({
       query: (body) => ({
         url: '/cart',
@@ -115,6 +110,11 @@ const customerApi = createApi({
       query: (params) => ({
         url: 'product/search',
         params: params
+      })
+    }),
+    getOrderById: build.query({
+      query: (id) => ({
+        url: `order/user/${id}`
       })
     })
   })

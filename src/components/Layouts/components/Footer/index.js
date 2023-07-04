@@ -1,42 +1,56 @@
 'use client'
 
-import { Footer } from 'flowbite-react'
-import { Link } from 'react-router-dom'
-import logo from '../../../../assets/images/logo.png'
 import notice from '../../../../assets/images/notice.png'
 import register from '../../../../assets/images/register.png'
 
-function FooterWithLogo() {
+function AppFooter() {
   return (
-    <Footer container>
-      <div className='w-full text-center'>
-        <div className='w-full justify-between sm:flex sm:items-center sm:justify-between'>
-          <Link className='flex gap-3 items-center' to='/'>
-            <img className='w-8 h-8' src={logo} alt='logo' />
-            <p className='text-lg text-neutral-0 font-semibold text-orange-500'>SOPY</p>
-          </Link>
-          <div className='flex'>
-            <Link className='flex gap-3 items-center' to='/'>
-              <img className='h-20' src={notice} alt='notice'></img>
-            </Link>
-            <Link className='flex gap-3 items-center' to='/'>
-              <img className='h-20' src={register} alt='register'></img>
-            </Link>
+    <div className='container mx-auto p-8 '>
+      <div className='grid grid-cols-4 gap-6'>
+        <div>
+          <div className='text-neutral-700 font-semibold text-sm'>CHĂM SÓC KHÁCH HÀNG</div>
+          <div className='text-neutral-500 text-xs'>Trung Tâm Trợ Giúp</div>
+          <div className='text-neutral-500 text-xs'>Sopy Blog</div>
+          <div className='text-neutral-500 text-xs'>Sopy Mall</div>
+          <div className='text-neutral-500 text-xs'>Hướng Dẫn Mua Hàng</div>
+          <div className='text-neutral-500 text-xs'>Hướng Dẫn Bán Hàng</div>
+          <div className='text-neutral-500 text-xs'>Thanh Toán</div>
+          <div className='text-neutral-500 text-xs'>Sopy Xu</div>
+          <div className='text-neutral-500 text-xs'>Vận Chuyển</div>
+          <div className='text-neutral-500 text-xs'>Trả Hàng & Hoàn Tiền</div>
+          <div className='text-neutral-500 text-xs'>Chăm Sóc Khách Hàng</div>
+          <div className='text-neutral-500 text-xs'>Chính Sách Bảo Hành</div>
+        </div>
+        <div>
+          <div className='text-neutral-700 font-semibold text-sm'>VỀ SOPY</div>
+          <div className='text-neutral-500 text-xs'>Giới Thiệu Về Sopy Việt Nam</div>
+          <div className='text-neutral-500 text-xs'>Tuyển Dụng</div>
+          <div className='text-neutral-500 text-xs'>Điều Khoản Sopy</div>
+          <div className='text-neutral-500 text-xs'>Chính Sách Bảo Mật</div>
+          <div className='text-neutral-500 text-xs'>Chính Hãng</div>
+          <div className='text-neutral-500 text-xs'>Kênh Người Bán</div>
+          <div className='text-neutral-500 text-xs'>Chương Trình Tiếp Thị Liên Kết Sopy</div>
+          <div className='text-neutral-500 text-xs'>Flash Sales</div>
+          <div className='text-neutral-500 text-xs'>Liên Hệ Với Truyền Thông</div>
+        </div>
+        <div>
+          <div className='text-neutral-700 font-semibold text-sm'>THEO DÕI CHÚNG TÔI TRÊN</div>
+          <div className='text-neutral-500 text-xs'>Facebook</div>
+          <div className='text-neutral-500 text-xs'>Instagram</div>
+          <div className='text-neutral-500 text-xs'>LinkedIn</div>
+        </div>
+        <div>
+          <div className='text-neutral-700 font-semibold text-sm'>CHỨNG NHẬN</div>
+          <div className='text-neutral-500 text-xs'>
+            <img src={notice} className='w-full' alt='notice' />
           </div>
-          <div className='flex gap-3 mt-1'>
-            <Footer.LinkGroup>
-              <Footer.Link href='#'>About</Footer.Link>
-              <Footer.Link href='#'>Privacy Policy</Footer.Link>
-              <Footer.Link href='#'>Licensing</Footer.Link>
-              <Footer.Link href='#'>Contact</Footer.Link>
-            </Footer.LinkGroup>
+          <div className='text-neutral-500 text-xs'>
+            <img src={register} className='w-full' alt='register' />
           </div>
         </div>
-        <Footer.Divider />
-        <Footer.Copyright by='SOPY' href='#' year={2023} />
       </div>
-    </Footer>
+    </div>
   )
 }
 
-export default FooterWithLogo
+export default AppFooter

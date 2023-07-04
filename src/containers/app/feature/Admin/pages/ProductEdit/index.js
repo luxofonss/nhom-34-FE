@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { adminApi, useAddProductMutation, useGetProductByIdQuery } from '../../adminService'
 import SellInformation from '../../components/SellInformation'
 import appApi from '@src/redux/service'
+import { useTitle } from '@src/hooks/useTitle'
 
 function ProductEdit() {
   const [imageList, setImageList] = useState([])
@@ -28,6 +29,8 @@ function ProductEdit() {
   const { data: product } = useGetProductByIdQuery(id)
   const [getCategory, { data: category }] = adminApi.endpoints.getCategoryBySubId.useLazyQuery()
   const [getProductAttributes, { data: productAttributes }] = appApi.endpoints.getProductAttributes.useLazyQuery()
+
+  useTitle('Chỉnh sửa sản phẩm')
 
   useEffect(() => {
     if (product?.metadata?.typeId) {

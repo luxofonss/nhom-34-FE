@@ -14,6 +14,7 @@ import { adminApi } from '../../adminService'
 import PopupAction from '../../../../../../components/PopupAction'
 import OrderTable from '../../components/OrderTable'
 import formatDate from '@src/utils/formatDate'
+import { useTitle } from '@src/hooks/useTitle'
 
 const filterValidation = Yup.object({
   trackingNumber: Yup.string(),
@@ -35,6 +36,8 @@ function OrderAll() {
   })
   const [selectedOrders, setSelectedOrders] = useState([])
   const closeConfirmRef = useRef(null)
+  const closeConfirmRef1 = useRef(null)
+  const closeConfirmRef2 = useRef(null)
   const closeShippingRef = useRef(null)
 
   const [getOrderList, { data: orderList }] = adminApi.endpoints.getAndFilterOrder.useLazyQuery()
@@ -44,6 +47,8 @@ function OrderAll() {
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  useTitle('Quản lý đơn hàng')
 
   const now = new Date()
   const formattedDateNow = now.toISOString().slice(0, 10)
@@ -94,7 +99,6 @@ function OrderAll() {
   }
 
   function onSubmit(data) {
-    console.log('filter data: ', data)
     setFilter({
       ...filter,
       filter: { [data.type]: data.keyword },
@@ -106,8 +110,6 @@ function OrderAll() {
   const onSelect = (selected) => {
     setSelectedOrders(selected)
   }
-
-  console.log('filter:: ', filter)
 
   const handleConfirm = async () => {
     if (selectedOrders.length === 0) {
@@ -208,14 +210,14 @@ function OrderAll() {
             heading='Xác nhận các đơn hàng hợp lệ được chọn'
           />
           <PopupAction
-            closeConfirmRef={closeConfirmRef}
+            closeConfirmRef={closeConfirmRef1}
             isConfirming={isConfirming}
             handleConfirm={handleConfirm}
             triggerName='Xuất hóa đơn PDF'
             heading='Xuất hóa đơn các đơn hàng hợp lệ được chọn'
           />
           <PopupAction
-            closeConfirmRef={closeConfirmRef}
+            closeConfirmRef={closeConfirmRef2}
             isConfirming={isConfirming}
             handleConfirm={handleConfirm}
             triggerName='Xuất hóa đơn excel'
