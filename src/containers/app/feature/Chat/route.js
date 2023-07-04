@@ -1,7 +1,7 @@
 import { USER_ROLE } from '@src/configs'
 import RequireAuth from '@src/routes/RequireAuth'
 import { Outlet } from 'react-router'
-import Chat from './pages/Chat'
+import Chat from './page/Chat'
 import AppLayout from '@src/components/Layouts/AppLayout'
 
 export const chatRouteList = [
