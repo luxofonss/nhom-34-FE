@@ -4,6 +4,7 @@ import { ChatBubbleLeftIcon, MinusIcon, PlusIcon, ShoppingCartIcon, TruckIcon } 
 import { CheapTag, FacebookLogo } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
 import { isEmptyValue } from '@src/helpers/check'
+import useNewConversation from '@src/hooks/useNewConversation'
 import appApi from '@src/redux/service'
 import getVariation from '@src/utils/getVariationId'
 import accounting from 'accounting'
@@ -12,12 +13,13 @@ import { Rating } from 'flowbite-react'
 import { isEmpty } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ProductAttribute from '../../components/ProductAttribute'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
+import { useTitle } from '@src/hooks/useTitle'
 
 function getVariation2ByVariation1(variation1, variation) {
   let res = []
@@ -54,6 +56,9 @@ function Product() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useTitle(product?.metadata?.name || 'Sopy - Có gì bán hết')
 
   const increaseQuantity = () => {
     console.log(quantity, variation.quantity, product?.metadata?.quantity)
@@ -69,7 +74,10 @@ function Product() {
     queryProduct(id, false)
   }, [id])
 
-  console.log('productAttributes: ', productAttributes)
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  }, [location])
 
   useEffect(() => {
     //get product attributes
@@ -197,6 +205,8 @@ function Product() {
     console.log('quantity: ', quantity)
     console.log('variation:: ', variation)
   }
+
+  const handleNewConversation = useNewConversation()
 
   return (
     <div className='container mx-auto'>
@@ -395,13 +405,24 @@ function Product() {
                 <AppButton
                   Icon={<ChatBubbleLeftIcon className='w-5 h-5' />}
                   showIcon
+                  onClick={() => {
+                    handleNewConversation({
+                      receiverId: shopInfo?.metadata?._id,
+                      name: shopInfo?.metadata?.shopInfo?.shopName || shopInfo?.metadata?.name,
+                      avatar: shopInfo?.metadata?.avatar
+                    })
+                  }}
                   className='h-9 bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
                 >
                   Chat
                 </AppButton>
-                <AppButton className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'>
+
+                <Link
+                  to={`/shop/${shopInfo?.metadata?._id}`}
+                  className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'
+                >
                   Xem shop
-                </AppButton>
+                </Link>
               </div>
             </div>
             <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>

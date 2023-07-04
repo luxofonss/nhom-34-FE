@@ -2,29 +2,12 @@
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import { BellIcon } from '@heroicons/react/20/solid'
 import customerApi from '../../../../containers/app/feature/Customer/customer.service'
 
 function Notification() {
-  // const msg = [
-  //   {
-  //     type: 'Shop',
-  //     from: 'Shop A',
-  //     message: 'message',
-  //     time: 'time',
-  //     id: 'id',
-  //     isViewed: true
-  //   },
-  //   {
-  //     type: 'Customer',
-  //     from: 'Shop A',
-  //     message: 'message',
-  //     time: 'time',
-  //     id: 'id',
-  //     isViewed: false
-  //   }
-  // ]
-  const [getNotification, { data: notifications }] = customerApi.endpoints.getNotification.useLazyQuery()
+  const [getNotification, { data: notifications }] = customerApi.endpoints.getNotification.useLazyQuery({ cache: true })
   useEffect(() => {
     getNotification(null, false)
   }, [])
@@ -57,35 +40,48 @@ function Notification() {
                     case 'ORDER_SHOP': {
                       return (
                         <Link
-                          key={child.id + child.message}
-                          className='p-2 bg-neutral-200 mb-2 rounded-sm'
-                          to={`order/${child.id}`}
+                          to={`me/orders`}
+                          className={`bg-green-200 h-14 w-full flex items-center py-1 mt-1 rounded-md px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
+                          key={child._id}
+                          target='_blank'
                         >
-                          <div className='flex justify-between'>
-                            <div className='flex gap-2'>
-                              <div className='bg-orange-500 italic'>{child.senderId}</div>
+                          <div className='flex w-full gap-4'>
+                            <div className='flex-1'>
+                              <div className='flex items-center justify-between'>
+                                <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
+                                  {child?.senderId?.name}
+                                </div>
+                                <div className='text-xs text-neutral-500'>
+                                  {moment(child?.createdAt).format('HH:MM')}
+                                </div>
+                              </div>
+                              <div className='text-sm text-neutral-400 line-clamp-1'>{child?.message}</div>
                             </div>
-                            <div>{child.createdAt}</div>
-                            <div>{child.isViewed ? 'viewed' : 'not viewed'}</div>
                           </div>
-                          <div>{child.message}</div>
                         </Link>
                       )
                     }
                     case 'ORDER_CUSTOMER': {
                       return (
                         <Link
-                          key={child.id + child.message}
-                          className='p-2 bg-neutral-200 mb-2 rounded-sm'
-                          to={`order/${child.id}`}
+                          to={`/shop/order/${child._id}`}
+                          className={`bg-orange-200 h-14 w-full flex items-center py-1 mt-1 rounded-md px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
+                          key={child._id}
+                          target='_blank'
                         >
-                          <div className='flex justify-between'>
-                            <div className='flex gap-2'>
-                              <div className='bg-orange-500 italic'>{child.senderId}</div>
+                          <div className='flex w-full gap-4'>
+                            <div className='flex-1'>
+                              <div className='flex items-center justify-between'>
+                                <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
+                                  {child?.senderId?.name}
+                                </div>
+                                <div className='text-xs text-neutral-500'>
+                                  {moment(child?.createdAt).format('HH:MM')}
+                                </div>
+                              </div>
+                              <div className='text-sm text-neutral-400 line-clamp-1'>{child?.message}</div>
                             </div>
-                            <div>{child.isViewed ? 'viewed' : 'not viewed'}</div>
                           </div>
-                          <div>{child.message}</div>
                         </Link>
                       )
                     }
